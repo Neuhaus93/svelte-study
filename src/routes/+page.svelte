@@ -8,6 +8,8 @@
 
 <section>
 	<h1>Hello World</h1>
+
+	<button class="btn">Button</button>
 </section>
 
 <style>

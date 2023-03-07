@@ -13,7 +13,7 @@
 </script>
 
 <QueryClientProvider client={queryClient}>
-	<div class="bg-slate-100 min-h-screen">
+	<div class="min-h-screen bg-slate-100">
 		<main>
 			<slot />
 		</main>

@@ -1,1 +1,7 @@
-<div>Home Page</div>
+<div>
+	Home Page
+
+	<form method="POST" action="/app?/logout">
+		<button class="btn">Log out</button>
+	</form>
+</div>

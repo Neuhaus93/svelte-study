@@ -1,13 +1,9 @@
 import type { Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-// export const load = (async ({ cookies }) => {
-//   const user = await db.getUserFromSession(cookies.get('sessionid'));
-//   return { user };
-// }) satisfies PageServerLoad;
-
 export const actions = {
 	login: async ({ cookies, request }) => {
+		console.log('got here: login');
 		const data = await request.formData();
 		const email = data.get('email');
 		const password = data.get('password');
@@ -25,8 +21,5 @@ export const actions = {
 		}
 
 		return { success: true };
-	},
-	register: async () => {
-		// TODO register the user
 	}
 } satisfies Actions;

@@ -12,7 +12,7 @@
 
 <div class="flex min-h-screen flex-col items-center justify-center">
 	<div class="flex flex-col">
-		<form class="flex flex-col" method="POST" action="/auth/login?/login" use:enhance>
+		<form class="flex flex-col" method="POST" action="/auth?/login" use:enhance>
 			<h1 class="mb-2 text-2xl font-bold">{loginPage ? 'Login' : 'Register'}</h1>
 
 			<div class="form-control">

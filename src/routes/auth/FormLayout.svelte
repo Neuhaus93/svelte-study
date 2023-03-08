@@ -1,52 +1,18 @@
 <script lang="ts">
 	import { Button } from '$lib/components/Button';
-	import { sleep } from '$lib/utils';
 	import clsx from 'clsx';
-	import { loggedIn } from '$lib/stores/loggedInStore';
-	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
 
 	// Props
 	export let loginPage: boolean;
 
 	let error = '';
 	let loading = false;
-
-	async function validateLogin(data: { [key: string]: string }) {
-		loading = true;
-		await sleep();
-		loading = false;
-
-		if (data.email === 'test@gmail.com' && data.password === '12345') {
-			error = '';
-			loggedIn.set(true);
-			goto('/home');
-
-			return;
-		}
-
-		error = 'Incorrect e-mail or password';
-	}
-
-	function handleFormSubmit(event: SubmitEvent) {
-		error = '';
-		const formData = new FormData(event.target as HTMLFormElement);
-
-		let data: { [key: string]: string } = {};
-		for (const field of formData.entries()) {
-			const [key, value] = field;
-
-			if (typeof value === 'string') {
-				data[key] = value;
-			}
-		}
-
-		validateLogin(data);
-	}
 </script>
 
 <div class="flex min-h-screen flex-col items-center justify-center">
 	<div class="flex flex-col">
-		<form class="flex flex-col" on:submit|preventDefault={handleFormSubmit}>
+		<form class="flex flex-col" method="POST" action="/auth/login?/login" use:enhance>
 			<h1 class="mb-2 text-2xl font-bold">{loginPage ? 'Login' : 'Register'}</h1>
 
 			<div class="form-control">
@@ -63,7 +29,7 @@
 				<p class="mt-1 pl-1 text-sm text-red-600">{error}</p>
 			{/if}
 
-			<Button type="submit" class={clsx('mt-6', { loading })}
+			<Button type="submit" class={clsx('mt-6', { loading })} disabled={loading}
 				>{loginPage ? 'Login' : 'Signup with e-mail'}</Button
 			>
 		</form>

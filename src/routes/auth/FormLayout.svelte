@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms';
-	import { Button } from '$lib/components/Button';
-	import clsx from 'clsx';
+	import { Button } from '$lib/components/index';
 
 	export let loginPage: boolean;
 	export let errors: { email?: string[]; password?: string[]; validation?: string } | undefined;
@@ -21,8 +20,8 @@
 	};
 </script>
 
-<div class="flex min-h-screen flex-col items-center justify-center">
-	<div class="flex flex-col">
+<div class="mt-14 flex flex-1 flex-col items-center sm:mt-0 sm:justify-center">
+	<div class="flex w-3/4 flex-col sm:w-auto">
 		<form class="flex flex-col" method="POST" action="/auth/login" use:enhance={handleLogin}>
 			<h1 class="mb-2 text-2xl font-bold">{loginPage ? 'Login' : 'Register'}</h1>
 
@@ -67,7 +66,7 @@
 				<p class="mt-1 pl-1 text-sm text-red-600">{errors.validation}</p>
 			{/if}
 
-			<Button type="submit" class={clsx('mt-6', { loading })} disabled={loading}
+			<Button type="submit" class="mt-6" {loading} disabled={loading}
 				>{loginPage ? 'Log in' : 'Sign up with Email'}</Button
 			>
 		</form>

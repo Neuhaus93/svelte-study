@@ -1,18 +1,15 @@
 <script lang="ts">
 	import FormLayout from './FormLayout.svelte';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
 	$: loginPage = $page.url.pathname === '/auth/login';
 	$: renderForm = loginPage || $page.url.pathname === '/auth/signup';
 </script>
 
-{#if renderForm}
-	<main>
-		<slot />
+<main class="flex flex-1">
+	<slot />
+	{#if renderForm}
 		<FormLayout {loginPage} data={$page.form?.data} errors={$page.form?.errors} />
-	</main>
-{:else}
-	<main>
-		<slot />
-	</main>
-{/if}
+	{/if}
+</main>

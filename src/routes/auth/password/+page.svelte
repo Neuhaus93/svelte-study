@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { Icon } from '$lib/components/Icon';
-	import { Button } from '$lib/components/Button';
+	import { Button, Icon } from '$lib/components/index';
 </script>
 
-<div class="min-v-screen flex min-h-screen flex-col items-center justify-center sm:flex-row">
+<div class="flex min-h-screen flex-1 flex-col items-center justify-center sm:flex-row">
 	<Icon name="under-construction" width={320} />
 
 	<div class="flex flex-col items-center">

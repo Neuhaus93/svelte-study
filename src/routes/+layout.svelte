@@ -2,6 +2,7 @@
 	import './styles.css';
 	import { browser } from '$app/environment';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+	import { onMount } from 'svelte';
 
 	const queryClient = new QueryClient({
 		defaultOptions: {
@@ -10,13 +11,23 @@
 			}
 		}
 	});
+
+	const setHeight = () => {
+		const mainEl = document.getElementById('root-container');
+
+		if (mainEl) {
+			mainEl.style.minHeight = window.innerHeight + 'px';
+		}
+	};
+
+	onMount(() => {
+		setHeight();
+	});
 </script>
 
+<svelte:window on:resize={setHeight} />
 <QueryClientProvider client={queryClient}>
-	<div class="min-h-screen bg-slate-100">
+	<div class="flex min-h-screen bg-slate-100" id="root-container">
 		<slot />
 	</div>
 </QueryClientProvider>
-
-<style>
-</style>

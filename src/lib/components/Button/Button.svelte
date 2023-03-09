@@ -2,6 +2,6 @@
 	import clsx from 'clsx';
 </script>
 
-<button {...$$props} class={clsx('btn', $$props.class)}>
+<button {...$$props} class={clsx('btn', $$props.class)} on:click>
 	<slot />
 </button>

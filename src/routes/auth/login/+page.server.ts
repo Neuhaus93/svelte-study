@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { z } from 'zod';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 export const load = (() => {
 	return {
@@ -33,10 +33,10 @@ export const actions = {
 			if (err instanceof z.ZodError) {
 				errors = err.flatten().fieldErrors;
 			}
-			return {
+			return fail(400, {
 				data: { email: formData.email },
 				errors
-			};
+			});
 		}
 
 		if (formData.email === 'test@gmail.com' && formData.password === 'testing') {
@@ -51,9 +51,9 @@ export const actions = {
 			throw redirect(303, '/');
 		}
 
-		return {
+		return fail(400, {
 			data: { email: formData.email },
 			errors: { validation: 'Invalid e-mail or password' }
-		};
+		});
 	}
 } satisfies Actions;

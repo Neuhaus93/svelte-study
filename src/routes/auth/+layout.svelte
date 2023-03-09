@@ -7,6 +7,7 @@
 </script>
 
 {#if renderForm}
+	<slot />
 	<FormLayout {loginPage} data={$page.form?.data} errors={$page.form?.errors} />
 {:else}
 	<slot />

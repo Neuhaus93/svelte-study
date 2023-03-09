@@ -68,7 +68,7 @@
 			{/if}
 
 			<Button type="submit" class={clsx('mt-6', { loading })} disabled={loading}
-				>{loginPage ? 'Login' : 'Signup with e-mail'}</Button
+				>{loginPage ? 'Log in' : 'Sign up with Email'}</Button
 			>
 		</form>
 
@@ -79,11 +79,11 @@
 
 			{#if loginPage}
 				<p class="mt-4">
-					Don't have an account? <a class="underline" href="/auth/signup">Sign Up</a>
+					Don't have an account? <a class="underline" href="/auth/signup">Sign up</a>
 				</p>
 			{:else}
 				<p class="mt-10">
-					Already have an account? <a class="underline" href="/auth/login">Sign In</a>
+					Already have an account? <a class="underline" href="/auth/login">Go to login</a>
 				</p>
 			{/if}
 		</div>

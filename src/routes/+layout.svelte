@@ -14,9 +14,7 @@
 
 <QueryClientProvider client={queryClient}>
 	<div class="min-h-screen bg-slate-100">
-		<main>
-			<slot />
-		</main>
+		<slot />
 	</div>
 </QueryClientProvider>
 

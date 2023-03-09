@@ -1,1 +1,1 @@
-export type IconName = 'under-construction';
+export type IconName = 'under-construction' | 'blank-canvas';

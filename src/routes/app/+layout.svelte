@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Sidebar } from '$lib/components/index';
+	import { Button } from '$lib/components/index';
 	import { BREAKPOINTS } from '$lib/constants';
 	import { onMount } from 'svelte';
 
@@ -49,7 +49,7 @@
 </nav>
 
 <div class="flex flex-1">
-	<Sidebar expanded={sidebarExpanded} toggleExpanded={toggleSidebar} />
+	<!-- <Sidebar expanded={sidebarExpanded} toggleExpanded={toggleSidebar} /> -->
 
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<main class="flex-center min-h-screen w-full flex-col pt-14" on:click={shrinkSidebarOnSmScreen}>

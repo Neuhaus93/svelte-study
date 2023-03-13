@@ -1,88 +1,126 @@
 <script lang="ts">
-	import { Button, Dialog, Input, Icon } from '$lib/components/index';
+	import { Button, Dialog, Icon, Input } from '$lib/components/index';
+	import { groups, groupSchema } from '$lib/stores/groups';
+	import { z } from 'zod';
+	import CreateGroupForm from './CreateGroupForm.svelte';
 
-	const categories = ['Trip', 'House', 'Couple', 'Event', 'Project', 'Other'] as const;
+	const categories = [
+		'Trip',
+		'House',
+		'Couple',
+		'Event',
+		'Project',
+		'Other'
+	] as const;
 
-	let selectedCategory: (typeof categories)[number] | undefined = undefined;
-	let members: string[] = [''];
-
+	let createGroupForm: HTMLFormElement | null = null;
+	// let selectedCategory: (typeof categories)[number] | undefined = undefined;
 	let createGroupDialogOpen = false;
+	let errors = {} as { name?: string[] };
 
-	const focusInput = (el: HTMLElement) => {
-		el.focus();
+	/**
+	 * Handles creating a group
+	 */
+	const handleCreateGroup = (e: SubmitEvent) => {
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+		const data = Object.fromEntries(formData);
+
+		try {
+			const parsedData = groupSchema.parse(data);
+			groups.set([...$groups, parsedData]);
+			createGroupDialogOpen = false;
+		} catch (err) {
+			if (err instanceof z.ZodError) {
+				errors = err.flatten().fieldErrors;
+			}
+		}
 	};
 
-	const handleAddMember = () => {
-		members = [...members, ''];
-	};
+	$: {
+		// Resets the group form when opening the dialog
+		if (createGroupDialogOpen && createGroupForm) {
+			createGroupForm.reset();
+		}
+	}
 </script>
 
-<Icon name="blank-canvas" width={250} />
+{#if $groups.length === 0}
+	<Icon name="blank-canvas" width={250} />
+	<h6 class="mt-2 text-slate-700">You don't have any group yet</h6>
+{/if}
 
-<div class="mt-6 text-center">
-	<h6 class="mb-2 text-slate-700">You don't have any group yet</h6>
-	<Button
-		class="btn-primary"
-		on:click={() => {
-			createGroupDialogOpen = true;
-		}}>Start new group</Button
+{#if $groups.length > 0}
+	<div class="grid grid-cols-2 gap-4">
+		{#each $groups as group}
+			<div class="h-28 w-32 rounded-md border p-2">
+				<h3 class="text-lg font-bold">{group.name}</h3>
+
+				{#if group.description}
+					<h4>{group.description}</h4>
+				{/if}
+
+				{#if group.category}
+					<h4>{group.category}</h4>
+				{/if}
+			</div>
+		{/each}
+	</div>
+{/if}
+
+<div class="mt-6">
+	<Button class="btn-primary" on:click={() => (createGroupDialogOpen = true)}
+		>Start new group</Button
 	>
 
-	<Dialog open onClose={() => (createGroupDialogOpen = false)}>
-		<form class="pb-2">
-			<Input label="Group name" type="text" />
-			<Input label="Description" multiline class="mt-2" />
+	<Dialog open onClose={() => {}}>
+		<CreateGroupForm />
+	</Dialog>
+
+	<Dialog open={false} onClose={() => (createGroupDialogOpen = false)}>
+		<form
+			bind:this={createGroupForm}
+			class="pb-2"
+			on:submit|preventDefault={handleCreateGroup}
+		>
+			<Input
+				label="Group name"
+				type="text"
+				name="name"
+				maxlength={5}
+				error={errors.name?.[0]}
+			/>
+			<Input label="Description" multiline class="mt-2" name="description" />
 
 			<div class="mt-2 text-start">
 				<p class="label">Category</p>
 
-				<fieldset class="categories">
+				<div role="radiogroup">
 					{#each categories as category}
-						<div class="inline-block">
-							<label
-								class:badge-outline={selectedCategory !== category}
-								class="badge badge-lg cursor-pointer"
-								for={category}>{category}</label
-							>
-							<input
-								id={category}
-								type="radio"
-								class="hidden"
-								on:click={() => (selectedCategory = category)}
-							/>
-						</div>
-					{/each}
-				</fieldset>
-			</div>
-
-			<div class="mt-2">
-				<p class="label -mb-2">Members</p>
-
-				{#each members as member, i}
-					<div class="flex">
-						<Input
-							useFn={focusInput}
-							bind:value={member}
-							class="flex-1"
-							label={i === 0 ? 'My name' : 'Other member'}
-							on:keydown={(e) => {
-								if (e.code === 'Enter') {
-									handleAddMember();
+						<!-- {@const selected = selectedCategory === category} -->
+						<input type="radio" name="category" value={category} />
+						<!-- <button
+							type="button"
+							role="radio"
+							aria-checked={selected}
+							class="badge badge-lg"
+							class:badge-outline={!selected}
+							on:click={() => {
+								if (selectedCategory === category) {
+									selectedCategory = undefined;
+									return;
 								}
+
+								selectedCategory = category;
 							}}
-						/>
-						{#if i === members.length - 1}
-							<Button type="button" class="ml-3 mt-9 px-6" on:click={handleAddMember}>Add</Button>
-						{/if}
-					</div>
-				{/each}
+						>
+							{category}
+						</button> -->
+					{/each}
+				</div>
 			</div>
+
+			<Button class="mt-4 ml-auto block">Create group</Button>
 		</form>
 	</Dialog>
 </div>
-
-<style lang="postcss">
-	.categories > div + div {
-		@apply ml-2;
-	}
-</style>

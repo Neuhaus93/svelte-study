@@ -34,12 +34,17 @@
 
 <svelte:window
 	bind:innerWidth
-	on:resize={({ currentTarget }) => (sidebarExpanded = currentTarget.innerWidth >= BREAKPOINTS.sm)}
+	on:resize={({ currentTarget }) =>
+		(sidebarExpanded = currentTarget.innerWidth >= BREAKPOINTS.sm)}
 />
 
-<nav class="fixed z-40 flex h-14 w-full items-center justify-between bg-slate-800 px-8">
+<nav
+	class="fixed z-40 flex h-14 w-full items-center justify-between bg-slate-800 px-8"
+>
 	<div>
-		<Button size="sm" class="mr-2 sm:hidden" on:click={toggleSidebar}>Menu</Button>
+		<Button size="sm" class="mr-2 sm:hidden" on:click={toggleSidebar}
+			>Menu</Button
+		>
 		<a href="/app" class="text-lg font-bold text-slate-100">My Svelte App</a>
 	</div>
 
@@ -51,8 +56,7 @@
 <div class="flex flex-1">
 	<!-- <Sidebar expanded={sidebarExpanded} toggleExpanded={toggleSidebar} /> -->
 
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<main class="flex-center min-h-screen w-full flex-col pt-14" on:click={shrinkSidebarOnSmScreen}>
+	<main class="flex-center min-h-screen w-full flex-col pt-14">
 		<slot />
 	</main>
 </div>

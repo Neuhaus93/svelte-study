@@ -1,12 +1,12 @@
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions } from './$types';
 import { z } from 'zod';
 import { fail, redirect } from '@sveltejs/kit';
 
-export const load = (() => {
+export const load = () => {
 	return {
 		message: 'Login page'
 	};
-}) satisfies PageServerLoad;
+};
 
 const loginSchema = z.object({
 	email: z
@@ -23,7 +23,9 @@ const loginSchema = z.object({
 
 export const actions = {
 	default: async ({ cookies, request }) => {
-		let formData = Object.fromEntries(await request.formData()) as z.infer<typeof loginSchema>;
+		let formData = Object.fromEntries(await request.formData()) as z.infer<
+			typeof loginSchema
+		>;
 
 		// Validate the form data
 		try {
@@ -39,7 +41,10 @@ export const actions = {
 			});
 		}
 
-		if (formData.email === 'test@gmail.com' && formData.password === 'testing') {
+		if (
+			formData.email === 'test@gmail.com' &&
+			formData.password === 'testing'
+		) {
 			cookies.set('auth', 'regularusertoken', {
 				path: '/',
 				httpOnly: true,

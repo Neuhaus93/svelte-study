@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms';
-	import { Button } from '$lib/components/index';
 
 	export let loginPage: boolean;
-	export let errors: { email?: string[]; password?: string[]; validation?: string } | undefined;
+	export let errors:
+		| { email?: string[]; password?: string[]; validation?: string }
+		| undefined;
 	export let data: { email?: string } | undefined;
 
 	let loading = false;
@@ -22,8 +23,15 @@
 
 <div class="mt-14 flex flex-1 flex-col items-center sm:mt-0 sm:justify-center">
 	<div class="flex w-3/4 flex-col sm:w-auto">
-		<form class="flex flex-col" method="POST" action="/auth/login" use:enhance={handleLogin}>
-			<h1 class="mb-2 text-2xl font-bold">{loginPage ? 'Login' : 'Register'}</h1>
+		<form
+			class="flex flex-col"
+			method="POST"
+			action="/auth/login"
+			use:enhance={handleLogin}
+		>
+			<h1 class="mb-2 text-2xl font-bold">
+				{loginPage ? 'Login' : 'Register'}
+			</h1>
 
 			<div class="form-control">
 				<label class="label" for="email">
@@ -57,7 +65,8 @@
 				/>
 				{#if errors?.password}
 					<label class="label" for="password">
-						<span class="label-text-alt text-red-600">{errors.password[0]}</span>
+						<span class="label-text-alt text-red-600">{errors.password[0]}</span
+						>
 					</label>
 				{/if}
 			</div>
@@ -66,23 +75,29 @@
 				<p class="mt-1 pl-1 text-sm text-red-600">{errors.validation}</p>
 			{/if}
 
-			<Button type="submit" class="mt-6" {loading} disabled={loading}
-				>{loginPage ? 'Log in' : 'Sign up with Email'}</Button
+			<button type="submit" class="mt-6" disabled={loading}
+				>{loginPage ? 'Log in' : 'Sign up with Email'}</button
 			>
 		</form>
 
 		<div class="mt-1">
 			{#if loginPage}
-				<a href="/auth/password" class="mt-2 text-sm text-slate-600 underline">Forgot password?</a>
+				<a href="/auth/password" class="mt-2 text-sm text-slate-600 underline"
+					>Forgot password?</a
+				>
 			{/if}
 
 			{#if loginPage}
 				<p class="mt-4">
-					Don't have an account? <a class="underline" href="/auth/signup">Sign up</a>
+					Don't have an account? <a class="underline" href="/auth/signup"
+						>Sign up</a
+					>
 				</p>
 			{:else}
 				<p class="mt-10">
-					Already have an account? <a class="underline" href="/auth/login">Go to login</a>
+					Already have an account? <a class="underline" href="/auth/login"
+						>Go to login</a
+					>
 				</p>
 			{/if}
 		</div>

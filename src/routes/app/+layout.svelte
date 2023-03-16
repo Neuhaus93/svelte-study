@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Button } from '$lib/components/index';
 	import { BREAKPOINTS } from '$lib/constants';
 	import { onMount } from 'svelte';
 
@@ -42,14 +41,11 @@
 	class="fixed z-40 flex h-14 w-full items-center justify-between bg-slate-800 px-8"
 >
 	<div>
-		<Button size="sm" class="mr-2 sm:hidden" on:click={toggleSidebar}
-			>Menu</Button
-		>
 		<a href="/app" class="text-lg font-bold text-slate-100">My Svelte App</a>
 	</div>
 
 	<form method="POST" action="?/logout">
-		<Button size="sm">Log out</Button>
+		<button>Log out</button>
 	</form>
 </nav>
 

@@ -2,14 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-	border-color: black;
+@layer base {
+	:root {
+		/* Colors */
+		--color-white: 255 255 255;
+		--color-black: 0 0 0;
+		--color-gray-300: 209 213 219;
+		--color-blue-500: 59 130 246;
+		--color-blue-700: 9 107 222;
+
+		/* Components */
+		--text-primary: var(--color-black);
+		--button-bg: var(--color-blue-500);
+		--button-text: var(--color-white);
+		--input-bg: var(--color-white);
+		--input-border: var(--color-gray-300);
+		--input-ring: var(--color-blue-500);
+		--input-text: var(--text-primary);
+	}
 }
 
-.btn {
-	@apply normal-case;
-}
+@layer components {
+	html {
+		@apply text-text-primary;
+	}
 
-.flex-center {
-	@apply flex items-center justify-center;
+	h1 {
+		@apply text-5xl font-extrabold;
+	}
+
+	h2 {
+		@apply text-4xl font-bold;
+	}
+
+	h3 {
+		@apply text-3xl font-bold;
+	}
+
+	h4 {
+		@apply text-2xl font-bold;
+	}
+
+	h5 {
+		@apply text-xl font-bold;
+	}
+
+	h6 {
+		@apply text-lg font-bold;
+	}
+
+	button,
+	[type='button'],
+	[type='reset'],
+	[type='submit'] {
+		@apply rounded-lg bg-button-bg px-5 py-2.5 text-center text-sm font-medium text-button-text focus:outline-none;
+	}
+
+	input,
+	textarea {
+		@apply block w-full rounded-lg border border-input-border bg-input-bg p-2.5 text-sm text-input-text focus:border-input-ring focus:outline-none focus:ring-1 focus:ring-input-ring;
+	}
+
+	label > input {
+		@apply mt-2;
+	}
 }

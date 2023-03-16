@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Button, Dialog, Icon, Input } from '$lib/components/index';
+	import { Icon } from '$lib/components/index';
+	import { faker } from '@faker-js/faker';
 	import { groups, groupSchema } from '$lib/stores/groups';
 	import { z } from 'zod';
-	import CreateGroupForm from './CreateGroupForm.svelte';
 
 	const categories = [
 		'Trip',
@@ -45,12 +45,75 @@
 	}
 </script>
 
-{#if $groups.length === 0}
+<!-- {#if $groups.length === 0}
 	<Icon name="blank-canvas" width={250} />
 	<h6 class="mt-2 text-slate-700">You don't have any group yet</h6>
-{/if}
+{/if} -->
 
-{#if $groups.length > 0}
+<section>
+	<ul
+		class="grid grid-cols-1 gap-4 bg-slate-50 p-4 text-sm leading-6 sm:grid-cols-2 sm:px-8 sm:pt-6 sm:pb-8 lg:grid-cols-1 lg:p-4 xl:grid-cols-2 xl:px-8 xl:pt-6 xl:pb-8"
+	>
+		{#each $groups as group}
+			<li
+				class="dark:highlight-white/10 group cursor-pointer rounded-md bg-white p-3 shadow-sm ring-1 ring-slate-200 hover:bg-blue-500 hover:shadow-md hover:ring-blue-500 dark:bg-slate-700 dark:ring-0 dark:hover:bg-blue-500"
+			>
+				<dl
+					class="grid grid-cols-2 grid-rows-2 items-center sm:block lg:grid xl:block"
+				>
+					<div>
+						<dt class="sr-only">Group name</dt>
+						<dd class="font-semibold text-slate-900 group-hover:text-white">
+							{group.name}
+						</dd>
+					</div>
+					<div>
+						<dt class="sr-only">Description</dt>
+						<dd class="group-hover:text-blue-200">{group.description}</dd>
+					</div>
+					<div
+						class="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4"
+					>
+						<dt class="sr-only">Users</dt>
+						<dd
+							class="flex justify-end -space-x-1.5 sm:justify-start lg:justify-end xl:justify-start"
+						>
+							{#each [...Array(3)] as item}
+								<img
+									src={faker.image.avatar()}
+									alt="user.name"
+									class="h-6 w-6 rounded-full bg-slate-100 ring-2 ring-white"
+									loading="lazy"
+								/>
+							{/each}
+						</dd>
+					</div>
+				</dl>
+			</li>
+		{/each}
+		<li class="flex">
+			<a
+				href="/new"
+				class="group flex w-full flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 py-3 text-sm font-medium leading-6 text-slate-900 hover:border-solid hover:border-blue-500 hover:bg-white hover:text-blue-500"
+			>
+				<svg
+					class="mb-1 text-slate-400 group-hover:text-blue-500"
+					width="20"
+					height="20"
+					fill="currentColor"
+					aria-hidden="true"
+				>
+					<path
+						d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z"
+					/>
+				</svg>
+				New project
+			</a>
+		</li>
+	</ul>
+</section>
+
+<!-- {#if $groups.length > 0}
 	<div class="grid grid-cols-2 gap-4">
 		{#each $groups as group}
 			<div class="h-28 w-32 rounded-md border p-2">
@@ -66,61 +129,29 @@
 			</div>
 		{/each}
 	</div>
-{/if}
+{/if} -->
 
 <div class="mt-6">
-	<Button class="btn-primary" on:click={() => (createGroupDialogOpen = true)}
-		>Start new group</Button
+	<form
+		class="max-w-md pb-2"
+		bind:this={createGroupForm}
+		on:submit|preventDefault={handleCreateGroup}
 	>
+		<div>
+			<label>
+				Group name
+				<input type="text" name="name" maxlength={50} />
+			</label>
+		</div>
 
-	<Dialog open onClose={() => {}}>
-		<CreateGroupForm />
-	</Dialog>
+		<div class="mt-4">
+			<label>
+				<span class="mt-4">Description</span>
 
-	<Dialog open={false} onClose={() => (createGroupDialogOpen = false)}>
-		<form
-			bind:this={createGroupForm}
-			class="pb-2"
-			on:submit|preventDefault={handleCreateGroup}
-		>
-			<Input
-				label="Group name"
-				type="text"
-				name="name"
-				maxlength={5}
-				error={errors.name?.[0]}
-			/>
-			<Input label="Description" multiline class="mt-2" name="description" />
+				<input name="description" />
+			</label>
+		</div>
 
-			<div class="mt-2 text-start">
-				<p class="label">Category</p>
-
-				<div role="radiogroup">
-					{#each categories as category}
-						<!-- {@const selected = selectedCategory === category} -->
-						<input type="radio" name="category" value={category} />
-						<!-- <button
-							type="button"
-							role="radio"
-							aria-checked={selected}
-							class="badge badge-lg"
-							class:badge-outline={!selected}
-							on:click={() => {
-								if (selectedCategory === category) {
-									selectedCategory = undefined;
-									return;
-								}
-
-								selectedCategory = category;
-							}}
-						>
-							{category}
-						</button> -->
-					{/each}
-				</div>
-			</div>
-
-			<Button class="mt-4 ml-auto block">Create group</Button>
-		</form>
-	</Dialog>
+		<button class="mt-4">Create group</button>
+	</form>
 </div>

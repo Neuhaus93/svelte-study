@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker';
+import { generateUUID } from '$lib/utils';
 
-const sleep = (ms = 1000) => {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-};
+// const sleep = (ms = 1000) => {
+// 	return new Promise((resolve) => setTimeout(resolve, ms));
+// };
 
 export const createRandomUser = () => {
 	return {
@@ -15,9 +16,10 @@ export const createRandomUser = () => {
 };
 
 export const createRandomGroups = () => {
-	const qty = faker.datatype.number(5);
+	const qty = faker.datatype.number({ min: 1, max: 5 });
 
 	return [...Array(qty)].map(() => ({
+		id: generateUUID(),
 		name: faker.commerce.productName(),
 		description: faker.random.words(5),
 		members: [

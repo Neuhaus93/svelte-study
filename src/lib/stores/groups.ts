@@ -7,8 +7,9 @@ export const memberSchema = z.object({
 	photo: z.string()
 });
 
-export const groupSchema = z
+export const createGroupSchema = z
 	.object({
+		id: z.string().nonempty(),
 		name: z.string().nonempty({
 			message: 'Please insert the group name'
 		}),
@@ -16,11 +17,15 @@ export const groupSchema = z
 		members: z.array(memberSchema)
 	})
 	.partial({
-		description: true,
-		members: true
+		description: true
 	});
 
-type Group = z.infer<typeof groupSchema>;
+export const groupSchema = createGroupSchema.extend({
+	id: z.string().nonempty()
+});
+
+export type Group = z.infer<typeof groupSchema>;
+export type Groups = Group[];
 
 const initialGroups = createRandomGroups();
 export const groups = writable(initialGroups as Group[]);

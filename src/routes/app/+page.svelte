@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { groups, groupSchema } from '$lib/stores/groups';
-	import { z } from 'zod';
+	import { createGroupSchema, groups } from '$lib/stores/groups';
+	import { generateUUID } from '$lib/utils';
 	import { fade } from 'svelte/transition';
+	import { z } from 'zod';
 
 	const categories = [
 		'Trip',
@@ -26,8 +27,8 @@
 		const data = Object.fromEntries(formData);
 
 		try {
-			const parsedData = groupSchema.parse(data);
-			groups.set([...$groups, parsedData]);
+			const parsedData = createGroupSchema.parse(data);
+			groups.set([...$groups, { ...parsedData, id: generateUUID() }]);
 			newGroupUi = 'TRANSITION';
 			createGroupForm?.reset();
 		} catch (err) {
@@ -44,37 +45,39 @@
 			<li
 				class="dark:highlight-white/10 group cursor-pointer rounded-md bg-white p-3 shadow-sm ring-1 ring-slate-200 hover:bg-blue-500 hover:shadow-md hover:ring-blue-500 dark:bg-slate-700 dark:ring-0 dark:hover:bg-blue-500"
 			>
-				<dl
-					class="grid grid-cols-2 grid-rows-2 items-center sm:block lg:grid xl:block"
-				>
-					<div>
-						<dt class="sr-only">Group name</dt>
-						<dd class="font-semibold text-slate-900 group-hover:text-white">
-							{group.name}
-						</dd>
-					</div>
-					<div>
-						<dt class="sr-only">Description</dt>
-						<dd class="group-hover:text-blue-200">{group.description}</dd>
-					</div>
-					<div
-						class="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4"
+				<a href={`app/group/${group.id}`}>
+					<dl
+						class="grid grid-cols-2 grid-rows-2 items-center sm:block lg:grid xl:block"
 					>
-						<dt class="sr-only">Users</dt>
-						<dd
-							class="flex justify-end -space-x-1.5 sm:justify-start lg:justify-end xl:justify-start"
+						<div>
+							<dt class="sr-only">Group name</dt>
+							<dd class="font-semibold text-slate-900 group-hover:text-white">
+								{group.name}
+							</dd>
+						</div>
+						<div>
+							<dt class="sr-only">Description</dt>
+							<dd class="group-hover:text-blue-200">{group.description}</dd>
+						</div>
+						<div
+							class="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4"
 						>
-							{#each group.members || [] as member}
-								<img
-									src={member.photo}
-									alt="Member"
-									class="h-6 w-6 rounded-full bg-slate-100 ring-2 ring-white"
-									loading="lazy"
-								/>
-							{/each}
-						</dd>
-					</div>
-				</dl>
+							<dt class="sr-only">Users</dt>
+							<dd
+								class="flex justify-end -space-x-1.5 sm:justify-start lg:justify-end xl:justify-start"
+							>
+								{#each group.members || [] as member}
+									<img
+										src={member.photo}
+										alt="Member"
+										class="h-6 w-6 rounded-full bg-slate-100 ring-2 ring-white"
+										loading="lazy"
+									/>
+								{/each}
+							</dd>
+						</div>
+					</dl>
+				</a>
 			</li>
 		{/each}
 		{#if newGroupUi === 'CREATE'}

@@ -6,5 +6,11 @@
 </script>
 
 <div>
-	{JSON.stringify(group)}
+	<h4>{group?.name}</h4>
+	<h6>{group?.description}</h6>
+
+	<h5>Members:</h5>
+	{#each group?.members || [] as member}
+		<p>{member.name}</p>
+	{/each}
 </div>

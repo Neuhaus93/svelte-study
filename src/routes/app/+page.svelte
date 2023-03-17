@@ -24,7 +24,7 @@
 	const handleCreateGroup = (e: SubmitEvent) => {
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
-		const data = Object.fromEntries(formData);
+		const data = { ...Object.fromEntries(formData), members: [] };
 
 		try {
 			const parsedData = createGroupSchema.parse(data);
@@ -34,6 +34,7 @@
 		} catch (err) {
 			if (err instanceof z.ZodError) {
 				errors = err.flatten().fieldErrors;
+				console.log(errors);
 			}
 		}
 	};

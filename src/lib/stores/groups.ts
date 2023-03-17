@@ -9,7 +9,6 @@ export const memberSchema = z.object({
 
 export const createGroupSchema = z
 	.object({
-		id: z.string().nonempty(),
 		name: z.string().nonempty({
 			message: 'Please insert the group name'
 		}),
@@ -28,4 +27,4 @@ export type Group = z.infer<typeof groupSchema>;
 export type Groups = Group[];
 
 const initialGroups = createRandomGroups();
-export const groups = writable(initialGroups as Group[]);
+export const groups = writable(initialGroups as Groups);

@@ -9,22 +9,6 @@
 	onMount(() => {
 		sidebarExpanded = innerWidth >= BREAKPOINTS.sm;
 	});
-
-	/**
-	 * Toggle the sidebar
-	 */
-	const toggleSidebar = () => {
-		sidebarExpanded = !sidebarExpanded;
-	};
-
-	/**
-	 * Shrink the sidebar when clicking outside of the menu when on small screens
-	 */
-	const shrinkSidebarOnSmScreen = () => {
-		if (innerWidth < BREAKPOINTS.sm) {
-			sidebarExpanded = false;
-		}
-	};
 </script>
 
 <svelte:head>
@@ -50,8 +34,6 @@
 </nav>
 
 <div class="flex flex-1">
-	<!-- <Sidebar expanded={sidebarExpanded} toggleExpanded={toggleSidebar} /> -->
-
 	<main
 		class="flex-center container mx-auto min-h-screen w-full flex-col pt-14"
 	>

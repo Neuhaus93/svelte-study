@@ -1,22 +1,18 @@
-import type { Actions } from './$types';
-import { redirect } from '@sveltejs/kit';
-import type { Group } from '$lib/stores/groups';
+import { prisma } from '$lib/server/prisma';
+import { fail } from '@sveltejs/kit';
 
-export const load = async ({ fetch, params }) => {
+export const load = async ({ params }) => {
 	const getGroup = async () => {
-		const response = await fetch(`/api/group/${params.id}`);
-		return (await response.json()) as Group;
+		const group = await prisma.group.findUnique({ where: { id: params.id } });
+
+		if (!group) {
+			throw fail(500, { message: 'Failed to get group' });
+		}
+
+		return group;
 	};
 
 	return {
-		groups: getGroup()
+		group: getGroup()
 	};
 };
-
-export const actions = {
-	logout: async ({ cookies }) => {
-		cookies.delete('auth');
-
-		throw redirect(303, '/');
-	}
-} satisfies Actions;

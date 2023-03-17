@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { createGroupSchema, groups } from '$lib/stores/groups';
 	import { generateUUID } from '$lib/utils';
 	import { fade } from 'svelte/transition';
-	import type { HTMLAttributes } from 'svelte/elements';
 	import { z } from 'zod';
 
 	export let data;
@@ -103,12 +103,15 @@
 		{/if}
 	</div>
 	{#if newGroupUi === 'NEW'}
+		<!-- on:submit|preventDefault={handleCreateGroup} -->
 		<form
-			transition:fade
+			transition:fade|local
 			on:outroend={() => (newGroupUi = 'CREATE')}
 			class="mx-auto mt-8 max-w-md pb-2"
 			bind:this={createGroupForm}
-			on:submit|preventDefault={handleCreateGroup}
+			action="/app?/createGroup"
+			method="POST"
+			use:enhance
 		>
 			<div>
 				<label>

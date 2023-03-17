@@ -2,17 +2,19 @@
 	import { groups } from '$lib/stores/groups';
 	import { page } from '$app/stores';
 
-	$: group = $groups.find((e) => e.id === $page.params.id);
+	export let data;
+
+	$: ({ group } = data);
 </script>
 
 <div class="mx-8 mt-8 max-w-lg">
-	<h4>{group?.name}</h4>
-	<h6>{group?.description}</h6>
+	<h4>{group.name}</h4>
+	<h6>{group.description}</h6>
 
-	<h6 class="mt-3">Members:</h6>
-	{#each group?.members || [] as member}
+	<!-- <h6 class="mt-3">Members:</h6>
+	{#each group.members || [] as member}
 		<p>{member.name}</p>
-	{/each}
+	{/each} -->
 
 	<form class="mt-5">
 		<h3 class="mb-2">Nova despesa</h3>
@@ -38,7 +40,7 @@
 			</label>
 		</div>
 
-		<div>
+		<!-- <div>
 			<label>
 				Pago por
 				<select name="paid_for">
@@ -47,6 +49,6 @@
 					{/each}
 				</select>
 			</label>
-		</div>
+		</div> -->
 	</form>
 </div>

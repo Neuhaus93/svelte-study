@@ -1,3 +1,5 @@
+import type { PrismaClient } from '@prisma/client';
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
@@ -17,6 +19,9 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+
+	// eslint-disable-next-line no-var
+	var prisma: PrismaClient;
 }
 
 export {};

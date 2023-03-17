@@ -28,7 +28,7 @@
 <svelte:window on:resize={setHeight} />
 
 <QueryClientProvider client={queryClient}>
-	<div class="bg-slate-100 flex min-h-screen" id="root-container">
+	<div class="flex min-h-screen bg-slate-100" id="root-container">
 		<slot />
 	</div>
 </QueryClientProvider>

@@ -28,7 +28,7 @@
 		<a href="/app" class="text-lg font-bold text-slate-100">My Svelte App</a>
 	</div>
 
-	<form method="POST" action="?/logout">
+	<form method="POST" action="/app?/logout">
 		<button>Log out</button>
 	</form>
 </nav>

@@ -2,19 +2,15 @@
 	import { createGroupSchema, groups } from '$lib/stores/groups';
 	import { generateUUID } from '$lib/utils';
 	import { fade } from 'svelte/transition';
+	import type { HTMLAttributes } from 'svelte/elements';
 	import { z } from 'zod';
 
-	const categories = [
-		'Trip',
-		'House',
-		'Couple',
-		'Event',
-		'Project',
-		'Other'
-	] as const;
+	export let data;
 
 	let createGroupForm: HTMLFormElement | null = null;
 	let newGroupUi: 'CREATE' | 'TRANSITION' | 'NEW' = 'CREATE';
+
+	let groupNameInput: HTMLInputElement;
 
 	let errors = {} as { name?: string[] };
 
@@ -41,12 +37,12 @@
 </script>
 
 <section class="bg-slate-50 p-4">
-	<ul class="grid grid-cols-1 gap-4 text-sm leading-6 lg:grid-cols-2">
-		{#each $groups as group}
-			<li
+	<div class="grid grid-cols-1 gap-4 text-sm leading-6 lg:grid-cols-2">
+		{#each data.groups as group}
+			<div
 				class="dark:highlight-white/10 group cursor-pointer rounded-md bg-white p-3 shadow-sm ring-1 ring-slate-200 hover:bg-blue-500 hover:shadow-md hover:ring-blue-500 dark:bg-slate-700 dark:ring-0 dark:hover:bg-blue-500"
 			>
-				<a href={`app/group/${group.id}`}>
+				<a href={`/app/group/${group.id}`}>
 					<dl
 						class="grid grid-cols-2 grid-rows-2 items-center sm:block lg:grid xl:block"
 					>
@@ -79,14 +75,16 @@
 						</div>
 					</dl>
 				</a>
-			</li>
+			</div>
 		{/each}
 		{#if newGroupUi === 'CREATE'}
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<li
-				transition:fade
+			<div
+				role="button"
+				transition:fade|local
+				on:outrostart={() => {}}
 				on:outroend={() => (newGroupUi = 'NEW')}
 				on:click={() => (newGroupUi = 'TRANSITION')}
+				on:keydown={() => (newGroupUi = 'TRANSITION')}
 				class="group flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 py-3 text-sm font-medium leading-6 text-slate-900 hover:border-solid hover:border-blue-500 hover:bg-white hover:text-blue-500"
 			>
 				<svg
@@ -101,9 +99,9 @@
 					/>
 				</svg>
 				New group
-			</li>
+			</div>
 		{/if}
-	</ul>
+	</div>
 	{#if newGroupUi === 'NEW'}
 		<form
 			transition:fade
@@ -115,7 +113,14 @@
 			<div>
 				<label>
 					Group name
-					<input type="text" name="name" maxlength={50} />
+					<!-- svelte-ignore a11y-autofocus -->
+					<input
+						bind:this={groupNameInput}
+						type="text"
+						name="name"
+						maxlength={50}
+						autofocus
+					/>
 				</label>
 			</div>
 

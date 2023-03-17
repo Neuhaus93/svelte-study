@@ -18,15 +18,17 @@ export const createRandomUser = () => {
 export const createRandomGroups = () => {
 	const qty = faker.datatype.number({ min: 1, max: 5 });
 
-	return [...Array(qty)].map(() => ({
-		id: generateUUID(),
-		name: faker.commerce.productName(),
-		description: faker.random.words(5),
-		members: [
-			{
+	return [...Array(qty)].map(() => {
+		const memberQty = faker.datatype.number({ max: 4 });
+
+		return {
+			id: generateUUID(),
+			name: faker.commerce.productName(),
+			description: faker.random.words(5),
+			members: [...Array(memberQty)].map(() => ({
 				name: faker.name.fullName(),
 				photo: faker.image.avatar()
-			}
-		]
-	}));
+			}))
+		};
+	});
 };

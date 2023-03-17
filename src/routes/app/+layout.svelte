@@ -52,7 +52,9 @@
 <div class="flex flex-1">
 	<!-- <Sidebar expanded={sidebarExpanded} toggleExpanded={toggleSidebar} /> -->
 
-	<main class="flex-center min-h-screen w-full flex-col pt-14">
+	<main
+		class="flex-center container mx-auto min-h-screen w-full flex-col pt-14"
+	>
 		<slot />
 	</main>
 </div>

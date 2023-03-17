@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { Icon } from '$lib/components/index';
+</script>
+
 <div
 	class="flex min-h-screen flex-1 flex-col items-center justify-center sm:flex-row"
 >

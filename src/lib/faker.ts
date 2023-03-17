@@ -19,6 +19,12 @@ export const createRandomGroups = () => {
 
 	return [...Array(qty)].map(() => ({
 		name: faker.commerce.productName(),
-		description: faker.random.words(5)
+		description: faker.random.words(5),
+		members: [
+			{
+				name: faker.name.fullName(),
+				photo: faker.image.avatar()
+			}
+		]
 	}));
 };
